@@ -425,7 +425,8 @@ class Util
     
     public static function loadcoredist(): Array<Dynamic>
     {
-    	return haxe.Json.parse(sys.io.File.getContent("dist/sUTL_core.json"));
+    	//return haxe.Json.parse(sys.io.File.getContent("dist/sUTL_core.json"));
+    	return Sutlcore.get();
     }
 
     public static function isPrefix(str1: String, str2: String): Bool
