@@ -1,0 +1,28 @@
+-main Main 
+-python out/sUTL.py
+#-js out/sUTL.js
+-cp src
+
+#-cp src
+
+# Uncomment the desirable target
+# JavaScript target
+# -js out/sUTLHaxe.js
+
+# SWF 9 target
+# -swf9 out/sUTLHaxe.swf
+
+# ActionScript3 target
+# -as3 out
+
+# Neko target
+# -neko out/sUTLHaxe.n
+
+# PHP target
+# -php out
+
+# C++ target
+# -cpp out
+
+# Uncomment and place your main class with package
+# -main package.subpackage.ClassName
