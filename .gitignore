@@ -1,0 +1,6 @@
+neko
+out
+*.n
+
+.git
+*~
