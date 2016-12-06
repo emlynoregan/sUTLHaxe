@@ -32,7 +32,21 @@ class Tests_Decls extends haxe.unit.TestCase
 	}
 
 	var _coreDist = null;
-	
+
+	function quote(aElem: Dynamic): Dynamic
+	{
+		var retval = {};
+		Reflect.setField(retval, "'", aElem);
+		return retval;
+	}
+		
+	function unquote(aElem: Dynamic): Dynamic
+	{
+		var retval = {};
+		Reflect.setField(retval, "''", aElem);
+		return retval;
+	}
+		
 	function LoadCoreDist()
 	{
 		if (this._coreDist == null)
@@ -492,7 +506,7 @@ class Tests_Decls extends haxe.unit.TestCase
     public function test_6()
     {
         var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
-		
+
         var ldecl = {
             "transform-t": {
                 "&": "reduce", 
@@ -501,13 +515,11 @@ class Tests_Decls extends haxe.unit.TestCase
                 	"list": {"&": "keys", "map": "^$"}
                 },
                 "accum": "",
-                "t": {"\'": 
-                  {
+                "t": quote({
                     "&": "+",
                     "b": "^@.item",
                     "a": "^@.accum"
-                  }
-                }
+                  })
             }, 
             "language": "sUTL0",
             "requires": ["quicksort"]
@@ -533,9 +545,7 @@ class Tests_Decls extends haxe.unit.TestCase
                 "^@.accum",
                 {
                   "&": "if",
-                  "cond": {"\'": 
-                    {"\'\'": "^@.filter-t"}
-                  },
+                  "cond": quote(unquote("^@.filter-t")),
                   "true": ["^@.item"],
                   "false": []
                 }
@@ -549,7 +559,7 @@ class Tests_Decls extends haxe.unit.TestCase
               "&": "reduce",
               "list": "^@.list",
               "accum": [],
-              "t": {"\'": lfilterDeclArr1}
+              "t": quote(lfilterDeclArr1)
             }
           };
         
@@ -562,11 +572,11 @@ class Tests_Decls extends haxe.unit.TestCase
             "transform-t": {
                 "!": "^*.testfilter", 
                 "list": {"&": "keys", "map": "^$"}, 
-                "filter-t": {"\'": {
+                "filter-t": quote({
                     "&": "=",
                     "a": "^@.item",
                     "b": "stored"
-                }}
+                })
             },
             "language": "sUTL0"
         };
@@ -620,7 +630,7 @@ class Tests_Decls extends haxe.unit.TestCase
             {
               "&": "if",
               "cond": "^@.list",
-              "true": { "\'": {
+              "true": quote({
                 "!": "^*.testreduce",
                 "list": {
                   "&": "tail",
@@ -635,10 +645,8 @@ class Tests_Decls extends haxe.unit.TestCase
                   },
                   "accum": "^@.accum"
                 }
-              }},
-              "false": {
-                "\'": "^@.accum"
-              }
+              }),
+              "false": quote("^@.accum")
             },
             "requires": [
               "testreduce", 
@@ -660,7 +668,7 @@ class Tests_Decls extends haxe.unit.TestCase
                 	"list": {"&": "keys", "map": "^$"}
                 }, 
                 "accum": "",
-                "t": {"\'": [ "&+", "^@.accum", "^@.item"]}
+                "t": quote([ "&+", "^@.accum", "^@.item"])
             }, 
             "language": "sUTL0"
         };
@@ -687,8 +695,8 @@ class Tests_Decls extends haxe.unit.TestCase
             {
               "&": "if",
               "cond": "^@.list",
-              "true": { "\'": true },
-              "false": { "\'": false }
+              "true": quote(true),
+              "false": quote(false)
             },
             "requires": [
             ]
@@ -760,10 +768,10 @@ class Tests_Decls extends haxe.unit.TestCase
         var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
 		
         var ldecl = {
-          "transform-t": {"\'": {
+          "transform-t": quote({
             "a": "^$.updated", 
-            "b": {"\'\'": "^$.updated"}
-          }}, 
+            "b": unquote("^$.updated")
+          }), 
           "language": "sUTL0"
         };
                       
