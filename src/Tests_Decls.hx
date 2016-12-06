@@ -501,7 +501,7 @@ class Tests_Decls extends haxe.unit.TestCase
                 	"list": {"&": "keys", "map": "^$"}
                 },
                 "accum": "",
-                "t": {"'": 
+                "t": {"\'": 
                   {
                     "&": "+",
                     "b": "^@.item",
@@ -533,8 +533,8 @@ class Tests_Decls extends haxe.unit.TestCase
                 "^@.accum",
                 {
                   "&": "if",
-                  "cond": {"'": 
-                    {"''": "^@.filter-t"}
+                  "cond": {"\'": 
+                    {"\'\'": "^@.filter-t"}
                   },
                   "true": ["^@.item"],
                   "false": []
@@ -549,7 +549,7 @@ class Tests_Decls extends haxe.unit.TestCase
               "&": "reduce",
               "list": "^@.list",
               "accum": [],
-              "t": {"'": lfilterDeclArr1}
+              "t": {"\'": lfilterDeclArr1}
             }
           };
         
@@ -562,7 +562,7 @@ class Tests_Decls extends haxe.unit.TestCase
             "transform-t": {
                 "!": "^*.testfilter", 
                 "list": {"&": "keys", "map": "^$"}, 
-                "filter-t": {"'": {
+                "filter-t": {"\'": {
                     "&": "=",
                     "a": "^@.item",
                     "b": "stored"
@@ -620,7 +620,7 @@ class Tests_Decls extends haxe.unit.TestCase
             {
               "&": "if",
               "cond": "^@.list",
-              "true": { "'": {
+              "true": { "\'": {
                 "!": "^*.testreduce",
                 "list": {
                   "&": "tail",
@@ -637,7 +637,7 @@ class Tests_Decls extends haxe.unit.TestCase
                 }
               }},
               "false": {
-                "'": "^@.accum"
+                "\'": "^@.accum"
               }
             },
             "requires": [
@@ -660,7 +660,7 @@ class Tests_Decls extends haxe.unit.TestCase
                 	"list": {"&": "keys", "map": "^$"}
                 }, 
                 "accum": "",
-                "t": {"'": [ "&+", "^@.accum", "^@.item"]}
+                "t": {"\'": [ "&+", "^@.accum", "^@.item"]}
             }, 
             "language": "sUTL0"
         };
@@ -687,8 +687,8 @@ class Tests_Decls extends haxe.unit.TestCase
             {
               "&": "if",
               "cond": "^@.list",
-              "true": { "'": true },
-              "false": { "'": false }
+              "true": { "\'": true },
+              "false": { "\'": false }
             },
             "requires": [
             ]
@@ -760,9 +760,9 @@ class Tests_Decls extends haxe.unit.TestCase
         var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
 		
         var ldecl = {
-          "transform-t": {"'": {
+          "transform-t": {"\'": {
             "a": "^$.updated", 
-            "b": {"''": "^$.updated"}
+            "b": {"\'\'": "^$.updated"}
           }}, 
           "language": "sUTL0"
         };
