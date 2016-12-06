@@ -1,4 +1,5 @@
 
+@:expose
 class Sutl 
 {
 	public function new() {
