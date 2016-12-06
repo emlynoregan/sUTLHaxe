@@ -62,6 +62,16 @@ class Tests_Decls extends haxe.unit.TestCase
 	    return lresult;
 	}
 
+	
+	function EvaluateTransform2(aDecl: Dynamic, aLib: Dynamic, aSource:Dynamic = null): Dynamic
+	{
+		var s = new Sutl();
+			    
+	    var lresult = s.evaluate(aSource, Util.get(aDecl, "transform-t"), aLib, 0);
+	    
+	    return lresult;
+	}
+
 	public function testLoadCoreDist()
 	{
 		var lcoreDist = LoadCoreDist();
@@ -1229,4 +1239,80 @@ class Tests_Decls extends haxe.unit.TestCase
           
         this.assertTrue(Util.deepEqual(lexpected, lresult));
     }
+//
+//    public function test_29()
+//    {
+//        var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
+//
+//		var lsource = {
+//		  "node": {
+//		    "name": "/",
+//		    "id": "root",
+//		    "type": "root"
+//		  }
+//		};
+//		
+//        var ldecl = {
+//		  "transform-t": {
+//		    "&": "modeltotreeview"
+//		  },
+//		  "requires": [
+//		    "modeltotreeview"
+//		  ]
+//		};
+//		
+//		var llib = Sutllib1.get();
+//		                      
+//        var lexpected = "xxx";
+//          
+//        var lresult = EvaluateTransform2(
+//                ldecl,
+//                llib,
+//                lsource
+//            );
+//          
+//        this.assertTrue(Util.deepEqual(lexpected, lresult));
+//    }
+//
+//    public function test_30()
+//    {
+//        var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
+//
+//		var lsource = {
+//		  "node": {
+//		    "name": "/",
+//		    "id": "root",
+//		    "type": "root"
+//		  }
+//		};
+//		
+//        var ldecl = {
+//		  "transform-t": {
+//		    "&": "addmaps",
+//		    "map1": {
+//		      "x": 1
+//		    },
+//		    "map2": {
+//		      "y": 2
+//		    }
+//		  },
+//		  "requires": [
+//		    "addmaps"
+//		  ]
+//		};
+//		
+//		var llib = Sutllib1.get();
+//		
+//		trace(ldecl);
+//		                      
+//        var lexpected = "xxx";
+//          
+//        var lresult = EvaluateTransform2(
+//                ldecl,
+//                llib,
+//                lsource
+//            );
+//          
+//        this.assertTrue(Util.deepEqual(lexpected, lresult));
+//    }
 }

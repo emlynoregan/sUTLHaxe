@@ -502,6 +502,7 @@ class Sutl
 
     public function evaluate(src: Dynamic, tt: Dynamic, l: Dynamic, h: Int = 0): Dynamic 
     {
+//    	trace ("l: " + l);
         var retval = _evaluate(src, tt, l, src, tt, builtins(), h);
         return retval;
     }
