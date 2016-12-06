@@ -1,6 +1,19 @@
 class Tests_isType extends haxe.unit.TestCase
 {
-
+	function quote(aElem: Dynamic): Dynamic
+	{
+		var retval = {};
+		Reflect.setField(retval, "'", aElem);
+		return retval;
+	}
+		
+	function unquote(aElem: Dynamic): Dynamic
+	{
+		var retval = {};
+		Reflect.setField(retval, "''", aElem);
+		return retval;
+	}
+		
  	public function isType(aTypeName: String, aObj: Dynamic)
  	{
 		//trace(aTypeName);
@@ -268,20 +281,14 @@ class Tests_isType extends haxe.unit.TestCase
 
  	public function testIsQuoteEval()
  	{
- 		var obj = {
- 			"'": { "x": 1 },
- 			"s": 2
- 		}
+ 		var obj = quote({ "x": 1 });
  		
  		assertTrue(Util.isQuoteEval(obj));
  	}
 
  	public function testIsDoubleQuoteEval()
  	{
- 		var obj = {
- 			"''": { "x": 1 },
- 			"s": 2
- 		}
+ 		var obj = unquote({ "x": 1 });
  		
  		assertTrue(Util.isDoubleQuoteEval(obj));
  	}
