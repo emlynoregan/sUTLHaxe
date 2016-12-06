@@ -4,6 +4,11 @@ class Sutl
 	public function new() {
 	}
 	
+	public static function version(): String
+	{
+		return "0.1";
+	}
+	
     public function _processPath(startfrom: Dynamic, parentscope: Dynamic, scope: Dynamic, l: Dynamic, src: Dynamic, tt: Dynamic, b: Dynamic, h: Int): Dynamic
     {    
         var la = Util.get(scope, "a");
