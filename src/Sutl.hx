@@ -40,7 +40,7 @@ class Sutl
 
         if (Util.isArray(a))
         {
-            if (b != null && b != "")
+            if (b != null && !(Util.isString(b) && b.length == 0))
             {
                 for (lsourceItem in cast(a, Array<Dynamic>))
                 {
