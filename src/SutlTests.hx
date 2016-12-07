@@ -14,5 +14,15 @@ class SutlTests
 	  	r.add(new Tests_Decls());
 	  	
 	  	r.run();
+	  	
+	  	if (!r.result.success)
+	  	{
+	  		trace("failure");
+	  		throw r.result.toString();
+	  	}
+	  	else
+	  	{
+	  		trace("success");
+	  	}
 	}
 }
