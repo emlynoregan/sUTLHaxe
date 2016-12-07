@@ -469,7 +469,7 @@ class Tests_Decls extends haxe.unit.TestCase
 		
         var ldecl = {
             "requires": [
-                "filter_core", "quicksort"
+                "quicksort", "filter_core"
             ], 
             "transform-t": {
                         "!": "^*.filter_core", 
