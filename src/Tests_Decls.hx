@@ -469,31 +469,34 @@ class Tests_Decls extends haxe.unit.TestCase
 		
         var ldecl = {
             "requires": [
-                "filter_core"
+                "filter_core", "quicksort"
             ], 
             "transform-t": {
                         "!": "^*.filter_core", 
-                        "list": {"&": "keys", "map": "^$"}, 
+                        "list": {
+                        	"&": "quicksort",
+                        	"list": {"&": "keys", "map": "^$"}
+                        }, 
                         "filter-t": true
                     },
             "language": "sUTL0"
         };
                       
         var lexpected = [
-        	"clientkey",
-        	"eventkeyid",
-        	"type",
-        	"indexnames",
-        	"objecttype",
-        	"key",
-        	"stored",
-        	"document",
-        	"updated",
         	"apkey",
+        	"clientkey",
         	"docalt",
-        	"invalid"
+        	"document",
+        	"eventkeyid",
+        	"indexnames",
+        	"invalid",
+        	"key",
+        	"objecttype",
+        	"stored",
+        	"type",
+        	"updated"
         ];
-          
+
         var lresult = EvaluateTransform(
                 ldecl,
                 ljsonDecls,
