@@ -198,7 +198,7 @@ class Util
         else if (item == null)
             return "null"
         else
-            return Std.string(Type.typeof(item)); // "unknown";
+            return "unknown"; //Std.string(Type.typeof(item)); 
     }
 
     
