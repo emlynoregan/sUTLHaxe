@@ -183,7 +183,7 @@ class Util
 	    return retval;
     }	
 
-    public static function gettype(item: Dynamic)
+    public static function gettype(item: Dynamic): String
     {
         if (Util.isObject(item))
             return "map"
@@ -198,7 +198,7 @@ class Util
         else if (item == null)
             return "null"
         else
-            return "unknown";
+            return Std.string(Type.typeof(item)); // "unknown";
     }
 
     

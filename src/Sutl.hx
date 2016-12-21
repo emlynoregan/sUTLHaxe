@@ -232,7 +232,15 @@ class Sutl
             {
                 var obj = Util.get(scope, "map");
                 if (Util.isObject(obj))
-                    return Reflect.fields(obj);
+                {
+//                	trace("*****");
+//                	trace(obj);
+                    var retval:Array<Dynamic> = Reflect.fields(obj);
+//                	trace(retval);
+                    retval.sort(function(a,b) return Reflect.compare(a, b));
+//                	trace(retval);
+                    return retval;
+                }
                 else
                     return null;
             },
@@ -242,7 +250,9 @@ class Sutl
                 var obj = Util.get(scope, "map");
                 if (Util.isObject(obj))
                 {
-                    var vals = Reflect.fields(obj).map(function (key: String): Dynamic {
+                    var keys:Dynamic = Reflect.fields(obj);
+                    keys.sort(function(a,b) return Reflect.compare(a, b));
+                    var vals = keys.map(function (key: String): Dynamic {
                         return Util.get(obj, key);
                     });
                     return vals;
@@ -255,7 +265,10 @@ class Sutl
             {
                 var item = Util.get(scope, "list", Util.get(scope, "value"));
                 if (Util.isSequence(item))
-                    return item.length;
+                {
+                	var arr = Util.SequenceToArray(item);
+                    return arr.length;
+                }
                 else
                     return 0;
             },
@@ -766,7 +779,9 @@ class Sutl
         }
         else if (builtinf != null)
         {
+//        	trace("?????????????????????");
             var s2 = Util.shallowCopy(s);
+//            trace(s2);
 
             var sX;
             if (needseval)
@@ -777,6 +792,7 @@ class Sutl
             {
                 sX = t;
             }
+//            trace(sX);
 			
 			if (Util.isObject(s2))
 			{
@@ -786,6 +802,7 @@ class Sutl
 			{
 				s2 = sX;
 			}
+//            trace(s2);
 
             var l2 = l;
             if (Reflect.hasField(t, "*"))

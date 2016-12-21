@@ -316,5 +316,23 @@ class Tests_isType extends haxe.unit.TestCase
  		
  		assertTrue(Util.isDictTransform(obj));
  	}
+ 	
+ 	public function testShallowCopy()
+ 	{
+ 		var lsource = Reflect.fields({a: 1, b: 2});
+// 		trace(lsource);
+ 		var lcopy = Util.shallowCopy(lsource);
+// 		trace(lcopy);
+ 		assertTrue(Util.deepEqual(lsource, lcopy));
+ 	}
+
+ 	public function testAddObject()
+ 	{
+ 		var lsource = {a: 1, b: 2};
+// 		trace(lsource);
+ 		Util.addObject(lsource, {c: 3});
+// 		trace(lsource);
+ 		assertTrue(Util.deepEqual(lsource, {a: 1, b: 2, c: 3}));
+ 	}
 }
  

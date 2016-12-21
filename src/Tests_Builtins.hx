@@ -198,14 +198,15 @@ class Tests_Builtins extends haxe.unit.TestCase
 	public function test_makemap()
 	{
 		var entry1: Array<Dynamic> = ["a", 1];
-		var entry2: Array<Dynamic> = ["b", 2];
+		var entry2: Array<Dynamic> = ["b", "two"];
+		var entry3: Array<Dynamic> = ["c", 3];
 		var scope = {
 			"value": [
-				entry1, entry2
+				entry1, entry2, entry3
 			]
 		};
 		
-		callbuiltin2("makemap", scope, {"a": 1, "b": 2});
+		callbuiltin2("makemap", scope, {"a": 1, "b": "two", "c": 3});
  	}
 
 	public function test_reduce()

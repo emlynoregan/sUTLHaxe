@@ -281,7 +281,7 @@ class Tests_Decls extends haxe.unit.TestCase
                 "addmaps_core"
             ], 
             "transform-t": {
-                "!": "^*.addmaps_core", 
+                "&": "addmaps_core", 
                 "map2": {
                		"x": 1
                 }, 
@@ -312,11 +312,12 @@ class Tests_Decls extends haxe.unit.TestCase
 		
         var ldecl = {
             "requires": [
-                "addmaps_core", 
+                "addmaps_core",
                 "removekeys_core"
             ], 
             "transform-t": {
                 "!": "^*.addmaps_core", 
+                "map1": "^$.document",
                 "map2": {
                     "__meta__": {
                         "!": "^*.removekeys_core", 
@@ -325,8 +326,7 @@ class Tests_Decls extends haxe.unit.TestCase
                             "document"
                         ]
                     }
-                }, 
-                "map1": "^$.document"
+                }
             }, 
             "language": "sUTL0"
         };
@@ -1250,6 +1250,451 @@ class Tests_Decls extends haxe.unit.TestCase
           
         this.assertTrue(Util.deepEqual(lexpected, lresult));
     }
+
+    public function test_29()
+    {
+        var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
+		
+		var ldeclArr: Array<Dynamic> = [
+		    [
+		    	"a", "b"
+		    ],
+		    [
+		    	1, 2
+		    ]
+		  ];
+		  
+        var ldecl = {
+        	"transform-t": {
+			  "&": "zip_core_emlynoregan_com",
+			  "list": ldeclArr
+			},
+			"requires": ["zip_core_emlynoregan_com"]
+		}
+
+		var lexpectedArr1: Array<Dynamic> = ["a", 1];
+		var lexpectedArr2: Array<Dynamic> = ["b", 2];
+        var lexpected = [lexpectedArr1, lexpectedArr2];
+          
+        var lresult = EvaluateTransform(
+                ldecl,
+                ljsonDecls,
+                null
+            );
+          
+        this.assertTrue(Util.deepEqual(lexpected, lresult));
+	}
+
+    public function test_30()
+    {
+        var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
+		
+		var lsource = {
+			map1: {
+				x: 1,
+				y: "two"
+			}
+		}
+
+		var ldeclArr: Array<Dynamic> = [
+	          {
+	            "&": "keys",
+	            "map": "^@.map1"
+	          },
+	          {
+	            "&": "values",
+	            "map": "^@.map1"
+	          }
+		  ];
+		  
+        var ldecl = {
+        	"transform-t": 
+        	{
+        	  "!": {":":
+	        	{
+				  "!": "^*.zip_core_emlynoregan_com",
+				  "list": ldeclArr
+				}
+			  },
+			  "map1": {
+				"x": 1,
+				"y": "two"
+			  }
+			},
+			"requires": ["zip_core_emlynoregan_com"]
+		}
+
+		var lexpectedArr1: Array<Dynamic> = ["x", 1];
+		var lexpectedArr2: Array<Dynamic> = ["y", "two"];
+        var lexpected = [lexpectedArr1, lexpectedArr2];
+          
+        var lresult = EvaluateTransform(
+                ldecl,
+                ljsonDecls,
+                lsource
+            );
+          
+        this.assertTrue(Util.deepEqual(lexpected, lresult));
+	}
+
+    public function test_30b()
+    {
+        var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
+		
+		var lsource = {
+			map1: {
+				x: 1,
+				y: 2
+			},
+			"keys": ["x", "y"],
+			"values": [1, 2]
+		}
+
+		var ldeclArr: Array<Dynamic> = [
+			  "^@.keys",
+			  {
+			  	"&": "values",
+			  	"map": "^@.map1"
+			  }, 
+		  ];
+		  
+        var ldecl = {
+        	"transform-t": 
+        	{
+        	  "!": {":":
+        	  	ldeclArr
+			  },
+			  "map1": {
+				"x": 1,
+				"y": 2
+			  },
+			  "keys": ["x", "y"],
+			  "values": [1, 2]
+			}
+		}
+
+		var lexpectedArr1: Array<Dynamic> = ["x", "y"];
+		var lexpectedArr2: Array<Dynamic> = [1, 2];
+        var lexpected = [lexpectedArr1, lexpectedArr2];
+          
+        var lresult = EvaluateTransform(
+                ldecl,
+                ljsonDecls,
+                lsource
+            );
+          
+        this.assertTrue(Util.deepEqual(lexpected, lresult));
+	}
+
+    public function test_31()
+    {
+        var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
+		
+		var lsource = {
+			map1: {
+				x: 1,
+				y: "two"
+			},
+			map2: {
+				z: 3
+			}
+		}
+
+		var ldeclArr1: Array<Dynamic> = [
+			  "&&",
+	          {
+	            "&": "keys",
+	            "map": "^@.map1"
+	          },
+	          {
+	            "&": "keys",
+	            "map": "^@.map2"
+	          }
+		  ];
+
+		var ldeclArr2: Array<Dynamic> = [
+			  "&&",
+	          {
+	            "&": "values",
+	            "map": "^@.map1"
+	          },
+	          {
+	            "&": "values",
+	            "map": "^@.map2"
+	          }
+		  ];
+		  
+        var ldecl = {
+        	"transform-t": {
+			  "&": "zip",
+			  "list": [
+			  	ldeclArr1,
+			  	ldeclArr2
+			  ]
+			},
+			"requires": ["zip"]
+		}
+
+		var lexpectedArr1: Array<Dynamic> = ["x", 1];
+		var lexpectedArr2: Array<Dynamic> = ["y", "two"];
+		var lexpectedArr3: Array<Dynamic> = ["z", 3];
+        var lexpected = [lexpectedArr1, lexpectedArr2, lexpectedArr3];
+          
+        var lresult = EvaluateTransform(
+                ldecl,
+                ljsonDecls,
+                lsource
+            );
+          
+        this.assertTrue(Util.deepEqual(lexpected, lresult));
+	}
+
+
+    public function test_32()
+    {
+        var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
+		
+		var lsourceArr1: Array<Dynamic> = ["x", 1];
+		var lsourceArr2: Array<Dynamic> = ["y", "two"];
+		var lsourceArr3: Array<Dynamic> = ["z", 3];
+        var lsource = {"x": [lsourceArr1, lsourceArr2, lsourceArr3], "value": {"z": 5}};
+		  
+		var ldeclArr: Array<Dynamic> = ["^%", {"z": "^@.x"}, "z"];
+        var ldecl = {
+        	"transform-t": {
+        	  "!": {":": {
+				  "&": "makemap"
+			  }},
+			  "value": ldeclArr
+			}
+		}
+
+        var lexpected = {
+        	"x": 1,
+        	"y": "two",
+        	"z": 3
+        };
+          
+        var lresult = EvaluateTransform(
+                ldecl,
+                ljsonDecls,
+                lsource
+            );
+          
+        this.assertTrue(Util.deepEqual(lexpected, lresult));
+	}
+
+    public function test_33()
+    {
+        var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
+		
+		var lsource = {
+			map1: {
+				x: 1,
+				y: "two"
+			},
+			map2: {
+				z: 3
+			}
+		}
+
+		var ldeclArr1: Array<Dynamic> = [
+			  "&&",
+	          {
+	            "&": "keys",
+	            "map": "^@.map1"
+	          },
+	          {
+	            "&": "keys",
+	            "map": "^@.map2"
+	          }
+		  ];
+
+		var ldeclArr2: Array<Dynamic> = [
+			  "&&",
+	          {
+	            "&": "values",
+	            "map": "^@.map1"
+	          },
+	          {
+	            "&": "values",
+	            "map": "^@.map2"
+	          }
+		  ];
+		  
+        var ldecl = {
+        	"transform-t": {
+        	  "!": {":": {
+				  "&": "makemap",
+			      "value": {
+					  "!": "^*.zip_core_emlynoregan_com",
+					  "list": [
+					  	ldeclArr1,
+					  	ldeclArr2
+					  ]
+				  }
+			  }},
+			  "map1": {
+				x: 1,
+				y: "two"
+			  },
+			  "map2": {
+				z: 3
+			  }
+			},
+			"requires": ["zip_core_emlynoregan_com"]
+		}
+
+        var lexpected = {
+        	"x": 1,
+        	"y": "two",
+        	"z": 3
+        };
+          
+        var lresult = EvaluateTransform(
+                ldecl,
+                ljsonDecls,
+                lsource
+            );
+          
+        this.assertTrue(Util.deepEqual(lexpected, lresult));
+	}
+
+    public function test_34()
+    {
+        var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
+		
+        var ldecl = {
+        	"transform-t": {
+        	  "!": {":": {
+        	  	"!": {":": {
+        	  		"z": ["^@.x", "^@.y"]
+        	  	}},
+  			    "x": {"z": 5}
+			  }},
+			  "x": {"z": 3},
+			  "y": {"z": 4}
+			}
+		}
+
+        var lexpected = {"z": [{"z": 5}, {"z": 4}]};
+          
+        var lresult = EvaluateTransform(
+                ldecl,
+                ljsonDecls,
+                null
+            );
+          
+        this.assertTrue(Util.deepEqual(lexpected, lresult));
+	}
+
+
+    public function test_35()
+    {
+        var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
+		
+		var lsource = {
+			map1: {
+				x: 1,
+				y: "two"
+			},
+			map2: {
+				z: 3
+			}
+		}
+
+        var ldecl = {
+        	"transform-t": {
+			  "&": "addmaps_core"
+			},
+			"requires": ["addmaps_core"]
+		}
+
+        var lexpected = {
+        	"x": 1,
+        	"y": "two",
+        	"z": 3
+        };
+          
+        var lresult = EvaluateTransform(
+                ldecl,
+                ljsonDecls,
+                lsource
+            );
+          
+        this.assertTrue(Util.deepEqual(lexpected, lresult));
+	}
+
+    public function test_36()
+    {
+        var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
+		
+		var lsource = {
+			map1: {
+				x: 1,
+				y: 2
+			}
+		}
+		  
+        var ldecl = {
+        	"transform-t": 
+        	{
+        	  "!": {":": {
+        	  	"&": "keys",
+        	  	"map": "^@.map1"
+			  }},
+			  "map1": {
+				"x": 1,
+				"y": 2
+			  }
+			}
+		}
+
+		var lexpected: Array<Dynamic> = ["x", "y"];
+          
+        var lresult = EvaluateTransform(
+                ldecl,
+                ljsonDecls,
+                lsource
+            );
+          
+        this.assertTrue(Util.deepEqual(lexpected, lresult));
+	}
+
+    public function test_37()
+    {
+        var ljsonDecls:Array<Array<Dynamic>> = [LoadCoreDist()];
+		
+		var lsource = {
+			map1: {
+				x: 1,
+				y: 2
+			}
+		}
+		  
+        var ldecl = {
+        	"transform-t": 
+        	{
+        	  "&": "keys",
+			  "map": {
+					"xxx": 1,
+					"yyy": 2
+			  }
+			}
+		}
+
+		var lexpected: Array<Dynamic> = ["xxx", "yyy"];
+          
+        var lresult = EvaluateTransform(
+                ldecl,
+                ljsonDecls,
+                null
+            );
+          
+        this.assertTrue(Util.deepEqual(lexpected, lresult));
+	}
+
+
 //
 //    public function test_29()
 //    {
