@@ -975,12 +975,12 @@ class Sutl
         return retval;
     }
     
-    public function compilelib(decls, dists)
+    public function compilelib(decls, dists): Dynamic
     {
         return _compilelib(decls, dists, {}, builtins());
     }
 
-    public function _compilelib(decls: Array<Dynamic>, dists: Array <Array<Dynamic>>, l: Dynamic, b: Dynamic)
+    public function _compilelib(decls: Array<Dynamic>, dists: Array <Array<Dynamic>>, l: Dynamic, b: Dynamic): Dynamic
     {
         var resultlib = {};
         var resultliblib = {};
