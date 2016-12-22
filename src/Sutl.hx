@@ -2,6 +2,41 @@
 @:expose
 class Sutl 
 {
+	public function ExampleString(): Dynamic
+	{
+		return "example string";
+	}
+	
+	public function ExampleInt(): Dynamic
+	{
+		return 1;
+	}
+	
+	public function ExampleFloat(): Dynamic
+	{
+		return 1.0;
+	}
+	
+	public function ExampleBool(): Dynamic
+	{
+		return true;
+	}
+	
+	public function ExampleNull(): Dynamic
+	{
+		return null;
+	}
+	
+	public function ExampleArray(): Dynamic
+	{
+		return [1, 2];
+	}
+	
+	public function ExampleDict(): Dynamic
+	{
+		return {"x": 1};
+	}
+	
 	public function new() {
 	}
 	
