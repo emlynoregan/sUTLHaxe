@@ -84,6 +84,11 @@ class Tests_Builtins extends haxe.unit.TestCase
 		callbuiltin("!=", "freddo", "Freddo", true);
  	}	
 
+	public function test_notequal2()
+	{
+		callbuiltin("!=", false, 0, true);
+ 	}	
+
 	public function test_ge()
 	{
 		callbuiltin(">=", 14, 5, true);
