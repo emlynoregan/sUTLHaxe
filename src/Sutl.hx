@@ -189,12 +189,16 @@ class Sutl
             "=": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                return Util.get(scope, "a", null) == Util.get(scope, "b", null);
+            	var a: Dynamic = Util.get(scope, "a", null);
+            	var b: Dynamic = Util.get(scope, "b", null);
+            	return Util.gettype(a) == Util.gettype(b) && (a == b);
             },
             "!=": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                return Util.get(scope, "a", null) != Util.get(scope, "b", null);
+            	var a: Dynamic = Util.get(scope, "a", null);
+            	var b: Dynamic = Util.get(scope, "b", null);
+            	return !(Util.gettype(a) == Util.gettype(b) && (a == b));
             },
             ">=": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
