@@ -2,17 +2,36 @@ class Util
 {
     public static function isObject (obj: Dynamic): Bool
     {
-    	return Reflect.isObject(obj) && !isArray(obj) && !isString(obj);
+    	var retval = Type.typeof(obj) == TObject;
+//    	var retval = Reflect.isObject(obj) && !isArray(obj) && !isString(obj);
+//    	var retval = Reflect.isObject(obj) && Type.typeof(obj) == TObject; //!isArray(obj) && !isString(obj);
+//    	if (retval)
+//    	{
+//	    	trace(Type.typeof(obj) == TObject);
+//    	}
+    	return retval;
     }
 
     public static function isArray (obj: Dynamic): Bool
     {
-    	return Std.is(obj, Array);
+    	var retval = Type.getClass(obj) == Array;
+//    	var retval = Reflect.isObject(obj) && Type.typeof(obj) != TObject && Std.is(obj, Array);
+//    	if (retval)
+//    	{
+//	    	trace(Type.typeof(obj));
+//    	}
+    	return retval;
     }
 
     public static function isString (obj: Dynamic): Bool
     {
-    	return Std.is(obj, String);
+    	var retval = Type.getClass(obj) == String;
+    	//var retval = Reflect.isObject(obj) &&  Std.is(obj, String);
+//    	if (retval)
+//    	{
+//	    	trace(Type.getClassName(Type.getClass(obj)));
+//    	}
+    	return retval;
     }
     
     public static function isSequence (obj: Dynamic): Bool
@@ -22,12 +41,15 @@ class Util
 
     public static function isNumber (obj: Dynamic): Bool
     {
-    	return Std.is(obj, Int) || Std.is(obj, Float);
+    	var ltype = Type.typeof(obj);
+    	return ltype == TInt || ltype == TFloat;
+    	//return Std.is(obj, Int) || Std.is(obj, Float);
     }
 
     public static function isBool (obj: Dynamic): Bool
     {
-    	return Std.is(obj, Bool);
+    	var ltype = Type.typeof(obj);
+    	return ltype == TBool;
     }
 
     public static function isTruthy(aObj:Dynamic): Bool
