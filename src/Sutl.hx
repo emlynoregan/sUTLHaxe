@@ -47,9 +47,9 @@ class Sutl
 	
     public function _processPath(startfrom: Dynamic, parentscope: Dynamic, scope: Dynamic, l: Dynamic, src: Dynamic, tt: Dynamic, b: Dynamic, h: Int): Dynamic
     {    
-        var la = Util.get(scope, "a");
-        var lb = Util.get(scope, "b");
-        var lnotfirst = Util.get(scope, "notfirst", false);
+        var la = Util3.get(scope, "a");
+        var lb = Util3.get(scope, "b");
+        var lnotfirst = Util3.get(scope, "notfirst", false);
         
 //        trace("a: " + la);
 //        trace("b: " + lb);
@@ -73,18 +73,18 @@ class Sutl
     {
         var retval = [];
 
-        if (Util.isArray(a))
+        if (Util2.isArray(a))
         {
-            if (b != null && !(Util.isString(b) && b.length == 0))
+            if (b != null && !(Util2.isString(b) && b.length == 0))
             {
                 for (lsourceItem in cast(a, Array<Dynamic>))
                 {
                     try
                     {
 //	                	trace(lsourceItem);
-//	                	trace(Util.isSequence(lsourceItem));
-//	                	trace(Util.isNumber(b));
-//	                	trace(Util.isString(b));
+//	                	trace(Util2.isSequence(lsourceItem));
+//	                	trace(Util2.isNumber(b));
+//	                	trace(Util2.isString(b));
                         if (b == "**") 
                         {
                             retval.push(lsourceItem);
@@ -92,16 +92,16 @@ class Sutl
                             while (lstack.length > 0)
                             {
                                 var litem = lstack.pop();
-                                if (Util.isObject(litem))
+                                if (Util2.isObject(litem))
                                 {
-                                    for (lattrib in Reflect.fields(litem))
+                                    for (lattrib in UtilReflect.fields(litem))
                                     {
-                                    	var lelem = Util.get(litem, lattrib);
+                                    	var lelem = Util3.get(litem, lattrib);
                                         retval.push(lelem);
                                         lstack.push(lelem);
                                     }
                                 }
-                                else if (Util.isArray(litem))
+                                else if (Util2.isArray(litem))
                                 {
                                     for (lelem in cast(litem, Array<Dynamic>))
                                     {
@@ -113,15 +113,15 @@ class Sutl
                         }
                         else if (b == "*")
                         {
-                            if (Util.isObject(lsourceItem))
+                            if (Util2.isObject(lsourceItem))
                             {
-                                for (lattrib in Reflect.fields(lsourceItem))
+                                for (lattrib in UtilReflect.fields(lsourceItem))
                                 {
-                                	var lelem = Util.get(lsourceItem, lattrib);
+                                	var lelem = Util3.get(lsourceItem, lattrib);
                                     retval.push(lelem);
                                 }
                             }
-                            else if (Util.isArray(lsourceItem))
+                            else if (Util2.isArray(lsourceItem))
                             {
                                 for (lelem in cast(lsourceItem, Array<Dynamic>))
                                 {
@@ -129,14 +129,14 @@ class Sutl
                                 }
                             }
                         }
-                        else if (Util.isObject(lsourceItem) && Util.isString(b))
+                        else if (Util2.isObject(lsourceItem) && Util2.isString(b))
                         {
-                            if (Reflect.hasField(lsourceItem, b))
+                            if (UtilReflect.hasField(lsourceItem, b))
                             {
-                                retval.push(Reflect.field(lsourceItem, b));
+                                retval.push(UtilReflect.field(lsourceItem, b));
                             }
                         }
-                        else if (Util.isSequence(lsourceItem) && Util.isNumber(b))
+                        else if (Util2.isSequence(lsourceItem) && Util2.isNumber(b))
                         {
                         	// trace ("GOT HERE !!!!!!!!!!!!!!!!!!!");
                         	var arr: Array<Dynamic> = Util.SequenceToArray(lsourceItem);
@@ -164,8 +164,8 @@ class Sutl
             "+": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var a = Util.get(scope, "a", 0);
-                var bb = Util.get(scope, "b", 0);
+                var a = Util3.get(scope, "a", 0);
+                var bb = Util3.get(scope, "b", 0);
                 if (Util.gettype(a) == Util.gettype(bb))
                     return a + bb;
                 else
@@ -174,72 +174,72 @@ class Sutl
             "-": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                return Util.get(scope, "a", 0) - Util.get(scope, "b", 0);
+                return Util3.get(scope, "a", 0) - Util3.get(scope, "b", 0);
             },
             "x": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                return Util.get(scope, "a", 1) * Util.get(scope, "b", 1);
+                return Util3.get(scope, "a", 1) * Util3.get(scope, "b", 1);
             },
             "/": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                return Util.get(scope, "a", 1) / Util.get(scope, "b", 1);
+                return Util3.get(scope, "a", 1) / Util3.get(scope, "b", 1);
             },
             "=": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-            	var a: Dynamic = Util.get(scope, "a", null);
-            	var b: Dynamic = Util.get(scope, "b", null);
+            	var a: Dynamic = Util3.get(scope, "a", null);
+            	var b: Dynamic = Util3.get(scope, "b", null);
             	return Util.gettype(a) == Util.gettype(b) && (a == b);
             },
             "!=": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-            	var a: Dynamic = Util.get(scope, "a", null);
-            	var b: Dynamic = Util.get(scope, "b", null);
+            	var a: Dynamic = Util3.get(scope, "a", null);
+            	var b: Dynamic = Util3.get(scope, "b", null);
             	return !(Util.gettype(a) == Util.gettype(b) && (a == b));
             },
             ">=": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                return Util.get(scope, "a", null) >= Util.get(scope, "b", null);
+                return Util3.get(scope, "a", null) >= Util3.get(scope, "b", null);
             },
             "<=": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                return Util.get(scope, "a", null) <= Util.get(scope, "b", null);
+                return Util3.get(scope, "a", null) <= Util3.get(scope, "b", null);
             },
             ">": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                return Util.get(scope, "a", null) > Util.get(scope, "b", null);
+                return Util3.get(scope, "a", null) > Util3.get(scope, "b", null);
             },
             "<": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                return Util.get(scope, "a", null) < Util.get(scope, "b", null);
+                return Util3.get(scope, "a", null) < Util3.get(scope, "b", null);
             },
             "&&": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                if (Reflect.hasField(scope, "a"))
-                    if (Reflect.hasField(scope, "b"))
-                        return Util.isTruthy(Util.get(scope, "a", false)) && Util.isTruthy(Util.get(scope, "b", false));
+                if (UtilReflect.hasField(scope, "a"))
+                    if (UtilReflect.hasField(scope, "b"))
+                        return Util3.isTruthy(Util3.get(scope, "a", false)) && Util3.isTruthy(Util3.get(scope, "b", false));
                     else
-                        return Util.isTruthy(Util.get(scope, "a", false));
+                        return Util3.isTruthy(Util3.get(scope, "a", false));
                 else
-                    return Util.isTruthy(Util.get(scope, "b", false));
+                    return Util3.isTruthy(Util3.get(scope, "b", false));
             },
             "||": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                return Util.isTruthy(Util.get(scope, "a", false)) || Util.isTruthy(Util.get(scope, "b", false));
+                return Util3.isTruthy(Util3.get(scope, "a", false)) || Util3.isTruthy(Util3.get(scope, "b", false));
             },
             "!": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                return ! Util.isTruthy(Util.get(scope, "b", false));
+                return ! Util3.isTruthy(Util3.get(scope, "b", false));
             },
             "if": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
@@ -247,21 +247,21 @@ class Sutl
                 var retval = null;
                 var condvalue = false;
 
-                if (Reflect.hasField(scope, "cond"))
+                if (UtilReflect.hasField(scope, "cond"))
                 {
-                    condvalue = Util.isTruthy(_evaluate(parentscope, Util.get(scope, "cond"), l, src, tt, b, h));
+                    condvalue = Util3.isTruthy(_evaluate(parentscope, Util3.get(scope, "cond"), l, src, tt, b, h));
                 }
                     
 
                 if (condvalue)
                 {
-                    if (Reflect.hasField(scope, "true"))
-                        retval = _evaluate(parentscope, Util.get(scope, "true"), l, src, tt, b, h);
+                    if (UtilReflect.hasField(scope, "true"))
+                        retval = _evaluate(parentscope, Util3.get(scope, "true"), l, src, tt, b, h);
                 }
                 else
                 {
-                    if (Reflect.hasField(scope, "false"))
-                        retval = _evaluate(parentscope, Util.get(scope, "false"), l, src, tt, b, h);
+                    if (UtilReflect.hasField(scope, "false"))
+                        retval = _evaluate(parentscope, Util3.get(scope, "false"), l, src, tt, b, h);
                 }
 
                 return retval;
@@ -269,12 +269,12 @@ class Sutl
             "keys": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var obj = Util.get(scope, "map");
-                if (Util.isObject(obj))
+                var obj = Util3.get(scope, "map");
+                if (Util2.isObject(obj))
                 {
 //                	trace("*****");
 //                	trace(obj);
-                    var retval:Array<Dynamic> = Reflect.fields(obj);
+                    var retval:Array<Dynamic> = UtilReflect.fields(obj);
 //                	trace(retval);
                     retval.sort(function(a,b) return Reflect.compare(a, b));
 //                	trace(retval);
@@ -286,13 +286,13 @@ class Sutl
             "values": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var obj = Util.get(scope, "map");
-                if (Util.isObject(obj))
+                var obj = Util3.get(scope, "map");
+                if (Util2.isObject(obj))
                 {
-                    var keys:Dynamic = Reflect.fields(obj);
+                    var keys:Dynamic = UtilReflect.fields(obj);
                     keys.sort(function(a,b) return Reflect.compare(a, b));
                     var vals = keys.map(function (key: String): Dynamic {
-                        return Util.get(obj, key);
+                        return Util3.get(obj, key);
                     });
                     return vals;
                 }
@@ -302,8 +302,8 @@ class Sutl
             "len": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var item = Util.get(scope, "list", Util.get(scope, "value"));
-                if (Util.isSequence(item))
+                var item = Util3.get(scope, "list", Util3.get(scope, "value"));
+                if (Util2.isSequence(item))
                 {
                 	var arr = Util.SequenceToArray(item);
                     return arr.length;
@@ -314,21 +314,21 @@ class Sutl
             "type": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var item = Util.get(scope, "value");
+                var item = Util3.get(scope, "value");
                 return Util.gettype(item);
             },
             "makemap":
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
                 var retval = {};
-                var arr = Util.get(scope, "value");
-                if (Util.isArray(arr))
+                var arr = Util3.get(scope, "value");
+                if (Util2.isArray(arr))
                 {
                     for (entry in cast(arr, Array<Dynamic>))
                     {
-                        if (Util.isArray(entry) && entry.length >= 2 && Util.isString(entry[0]))
+                        if (Util2.isArray(entry) && entry.length >= 2 && Util2.isString(entry[0]))
                         {
-                            Reflect.setField(retval, entry[0], entry[1]);
+                            UtilReflect.setField(retval, entry[0], entry[1]);
                         }
                     } 
 
@@ -339,30 +339,39 @@ class Sutl
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
                 var retval = {};
-                var listobj = Util.get(scope, "list");
-                var t = Util.get(scope, "t");
-                var accum = Util.get(scope, "accum");
+                var listobj = Util3.get(scope, "list");
+                var t = Util3.get(scope, "t");
+                var accum = Util3.get(scope, "accum");
 
-                if (Util.isSequence(listobj))
+                if (Util2.isSequence(listobj))
                 {
 	                var list:Array<Dynamic> = Util.SequenceToArray(listobj);
                 	
+                    var s2 = {};
+
+					if (Util2.isObject(parentscope))
+					{
+						s2 = Util.shallowCopy(parentscope);
+                    }
+
+					Util.addObject(s2, scope);
+
                     for (ix in 0...list.length)
                     {
                         var item = list[ix];
 
-                        var s2 = {};
-
-						if (Util.isObject(parentscope))
-						{
-							s2 = Util.shallowCopy(parentscope);
-                        }
-
-						Util.addObject(s2, scope);
-
-                        Reflect.setField(s2, "item", item);
-                        Reflect.setField(s2, "accum", accum);
-                        Reflect.setField(s2, "ix", item);
+//                        var s2 = {};
+//
+//						if (Util2.isObject(parentscope))
+//						{
+//							s2 = Util.shallowCopy(parentscope);
+//                        }
+//
+//						Util.addObject(s2, scope);
+//
+                        UtilReflect.setField(s2, "item", item);
+                        UtilReflect.setField(s2, "accum", accum);
+                       	UtilReflect.setField(s2, "ix", ix);
 
                         accum = _evaluate(
                             s2,
@@ -397,9 +406,9 @@ class Sutl
             "%": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var la = Util.get(scope, "a");
-                var lb = Util.get(scope, "b");
-                var lnotfirst = Util.get(scope, "notfirst");
+                var la = Util3.get(scope, "a");
+                var lb = Util3.get(scope, "b");
+                var lnotfirst = Util3.get(scope, "notfirst");
 
                 if (lnotfirst)
                 {
@@ -416,8 +425,8 @@ class Sutl
             "head": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var lb = Util.get(scope, "b");
-                if (Util.isSequence(lb))
+                var lb = Util3.get(scope, "b");
+                if (Util2.isSequence(lb))
                 {
                 	var arr = Util.SequenceToArray(lb);
                 	
@@ -432,9 +441,9 @@ class Sutl
             "tail": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var lb = Util.get(scope, "b");
+                var lb = Util3.get(scope, "b");
 
-                if (Util.isSequence(lb))
+                if (Util2.isSequence(lb))
                 {
                 	var arr = Util.SequenceToArray(lb);
 
@@ -449,20 +458,20 @@ class Sutl
             "split": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var lvalue = Util.get(scope, "value");
-                var lsep = Util.get(scope, "sep", ",");
-                var lmax = Util.get(scope, "max");
+                var lvalue = Util3.get(scope, "value");
+                var lsep = Util3.get(scope, "sep", ",");
+                var lmax = Util3.get(scope, "max");
                 var retval:Array<Dynamic> = null;
 
-                if (!Util.isString(lvalue))
+                if (!Util2.isString(lvalue))
                 {
 					// null
                 }
-                else if (!(Util.isTruthy(lsep) && Util.isString(lsep)))
+                else if (!(Util3.isTruthy(lsep) && Util2.isString(lsep)))
                 {
 					// null
                 }
-                else if (!(Util.isNumber(lmax) || lmax == null))
+                else if (!(Util2.isNumber(lmax) || lmax == null))
                 {
 					// null
                 }
@@ -485,10 +494,10 @@ class Sutl
             "trim": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var lvalue = Util.get(scope, "value");
+                var lvalue = Util3.get(scope, "value");
                 var retval = null;
 
-                if (!Util.isString(lvalue))
+                if (!Util2.isString(lvalue))
                 {
 					//null
                 }
@@ -501,15 +510,15 @@ class Sutl
             "pos": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var lvalue = Util.get(scope, "value");
-                var lsub = Util.get(scope, "sub");
+                var lvalue = Util3.get(scope, "value");
+                var lsub = Util3.get(scope, "sub");
                 var retval = null;
 
-                if (!Util.isString(lvalue))
+                if (!Util2.isString(lvalue))
                 {
 					// null
                 }
-                else if (!(Util.isTruthy(lsub) && Util.isString(lsub)))
+                else if (!(Util3.isTruthy(lsub) && Util2.isString(lsub)))
                 {
 					// null
                 }
@@ -522,9 +531,9 @@ class Sutl
             }
         };
 
-        for (fieldname in Reflect.fields(functions))
+        for (fieldname in UtilReflect.fields(functions))
         {
-            Reflect.setField(functions, "has" + fieldname, function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
+            UtilReflect.setField(functions, "has" + fieldname, function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
                 return true;
             });
@@ -554,7 +563,6 @@ class Sutl
 
     public function evaluate(src: Dynamic, tt: Dynamic, l: Dynamic, h: Int = 0): Dynamic 
     {
-//    	trace ("l: " + l);
         var retval = _evaluate(src, tt, l, src, tt, builtins(), h);
         return retval;
     }
@@ -567,57 +575,66 @@ class Sutl
     public function _evaluate
     	(s: Dynamic, t: Dynamic, l: Dynamic, src: Dynamic, tt: Dynamic, b: Dynamic, h: Int): Dynamic
     {
-        if (!Util.isTruthy(h)) h = 0;
+//        if (!Util3.isTruthy(h)) h = 0;
 
         var r=null;
 
         logenter("_evaluate", s, t, h);
-
-        if (Util.isEval(t))
+        
+        if (Util2.isObject(t))
         {
-            r = _evaluateEval(s, t, l, src, tt, b, dec(h));
-        }
-        else if (Util.isEval2(t))
-        {
-            r = _evaluateEval2(s, t, l, src, tt, b, dec(h));
-        }
-        else if (Util.isBuiltinEval(t))
-        {
-            r = _evaluateBuiltin(s, t, l, src, tt, b, dec(h));
-        }
-        else if (Util.isQuoteEval(t))
-        {
-            r = _quoteEvaluate(s, Util.get(t, "'"), l, src, tt, b, dec(h));
-        }
-        else if (Util.isColonEval(t))
-        {
-            r = Util.get(t, ":");
-        }
-        else if (Util.isDictTransform(t))
-        {
-        	r = _evaluateDict(s, t, l, src, tt, b, dec(h));
-        }
-        else if (Util.isArrayBuiltinEval(t, b))
-        {
-	      	r = _evaluateArrayBuiltin(s, t, l, src, tt, b, dec(h));
-        }
-        else if (Util.isListTransform(t))
-        {
-        	var tlist:Array<Dynamic> = Util.SequenceToArray(t);
-        	
-            if (tlist.length > 0 && tlist[0] == "&&")
-                r = Util.flatten(_evaluateList(s, tlist.slice(1), l, src, tt, b, dec(h)));
-            else
-                r = _evaluateList(s, t, l, src, tt, b, dec(h));
-        }
-        else if (Util.isStringBuiltinEval(t, b))
-        {
-            r = _evaluateStringBuiltin(s, t, l, src, tt, b, dec(h));
-        }
-        else
-        {
-            r = t; // simple transform
-        }
+	        if (Util3.isEval(t))
+	        {
+	            r = _evaluateEval(true, s, t, l, src, tt, b, dec(h));
+	        }
+	        else if (Util3.isEval2(t))
+	        {
+	            r = _evaluateEval2(s, t, l, src, tt, b, dec(h));
+	        }
+	        else if (Util3.isBuiltinEval(t))
+	        {
+	            r = _evaluateBuiltin(s, t, l, src, tt, b, dec(h));
+	        }
+	        else if (Util3.isQuoteEval(t))
+	        {
+	            r = _quoteEvaluate(s, Util3.get(t, "'"), l, src, tt, b, dec(h));
+	        }
+	        else if (Util3.isColonEval(t))
+	        {
+	            r = Util3.get(t, ":");
+	        }
+	        else if (Util3.isDictTransform(t))
+	        {
+	        	r = _evaluateDict(s, t, l, src, tt, b, dec(h), false);
+	        }
+	    }
+	    else if (Util2.isArray(t))
+	    {
+	        if (Util.isArrayBuiltinEval(t, b))
+	        {
+		      	r = _evaluateArrayBuiltin(s, t, l, src, tt, b, dec(h));
+	        }
+	        else if (Util3.isListTransform(t))
+	        {
+	        	var tlist:Array<Dynamic> = Util.SequenceToArray(t);
+	        	
+	            if (tlist.length > 0 && tlist[0] == "&&")
+	                r = Util.flatten(_evaluateList(s, tlist.slice(1), l, src, tt, b, dec(h)));
+	            else
+	                r = _evaluateList(s, t, l, src, tt, b, dec(h));
+	        }
+	    }
+	    else
+	    {
+	        if (Util.isStringBuiltinEval(t, b))
+	        {
+	            r = _evaluateStringBuiltin(s, t, l, src, tt, b, dec(h));
+	        }
+	        else
+	        {
+	            r = t; // simple transform
+	        }
+	    }
 
         logexit("_evaluate", r, h);
         return r;
@@ -629,15 +646,15 @@ class Sutl
         logenter("_quoteEvaluate", s, t, h);
         var r;
 
-        if (Util.isDoubleQuoteEval(t))
+        if (Util3.isDoubleQuoteEval(t))
         {
-            r = _evaluate(s, Util.get(t, "''"), l, src, tt, b, dec(h));
+            r = _evaluate(s, Util3.get(t, "''"), l, src, tt, b, dec(h));
         }
-        else if (Util.isDictTransform(t))
+        else if (Util3.isDictTransform(t))
         {
             r = _quoteEvaluateDict(s, t, l, src, tt, b, dec(h));
         }
-        else if (Util.isListTransform(t))
+        else if (Util3.isListTransform(t))
         {
             r = _quoteEvaluateList(s, t, l, src, tt, b, dec(h));
         }
@@ -697,7 +714,7 @@ class Sutl
 		if (arrt.length > 0)
 			lop = cast(arrt[0], String);
 
-		if (Util.isTruthy(lop))
+		if (lop.length > 0)//(Util3.isTruthy(lop))
 		{
 	        var lopChar = lop.charAt(0);
 	
@@ -720,13 +737,13 @@ class Sutl
 
         var retval = null;
 
-        if (Reflect.hasField(t, "args"))
+        if (UtilReflect.hasField(t, "args"))
         {
             // args format relies on reducing over the list
-            var args:Array<Dynamic> = Util.get(t, "args");
+            var args:Array<Dynamic> = Util3.get(t, "args");
 //			trace ("args: " + args);
 			            
-            var builtinname = _evaluate(s, Util.get(t, "&"), l, src, tt, b, dec(h));
+            var builtinname = _evaluate(s, Util3.get(t, "&"), l, src, tt, b, dec(h));
             
             if (args.length == 0)
             {
@@ -770,7 +787,7 @@ class Sutl
                 } 
             }
 
-            if (Util.isArray(retval) && Util.isTruthy(Util.get(t, "head")))
+            if (Util2.isArray(retval) && Util3.isTruthy(Util3.get(t, "head")))
             {
             	var arrretval: Array<Dynamic> = cast(retval, Array<Dynamic>);
                 if (arrretval.length > 0)
@@ -793,39 +810,37 @@ class Sutl
     {
         var retval = null;
 
-		var builtinname = Util.get(t, "&");
+		var builtinname = Util3.get(t, "&");
 //		trace("builtinname: " + builtinname);
 		
-        var builtinf: Dynamic = Util.get(b, builtinname);
+        var builtinf: Dynamic = Util3.get(b, builtinname);
 //		trace("builtinf: " + builtinf);
 
         var llibname;
 
         if (builtinf)
-            llibname = "_override_" + Util.get(t, "&");
+            llibname = "_override_" + Util3.get(t, "&");
         else    
-            llibname = Util.get(t, "&");
+            llibname = Util3.get(t, "&");
 
-        if (Util.isObject(l) && Reflect.hasField(l, llibname))
+        if (Util2.isObject(l) && UtilReflect.hasField(l, llibname))
         {        	
             var t2 = Util.shallowCopy(t);
 
-            Reflect.setField(t2, "!", ["^*", Util.get(t, "&")]);
+            UtilReflect.setField(t2, "!", ["^*", Util3.get(t, "&")]);
 
-			Reflect.deleteField(t2, "&");
+			UtilReflect.deleteField(t2, "&");
 
-            retval = _evaluateEval(s, t2, l, src, tt, b, dec(h));
+            retval = _evaluateEval(needseval, s, t2, l, src, tt, b, dec(h));
         }
         else if (builtinf != null)
         {
-//        	trace("?????????????????????");
-            var s2 = Util.shallowCopy(s);
-//            trace(s2);
+            //var s2 = Util.shallowCopy(s);
 
             var sX;
             if (needseval)
             {
-                sX = _evaluateDict(s, t, l, src, tt, b, dec(h));
+                sX = _evaluateDict(s, t, l, src, tt, b, dec(h), true);
             }
             else
             {
@@ -833,8 +848,11 @@ class Sutl
             }
 //            trace(sX);
 			
-			if (Util.isObject(s2))
+			var s2 = null;
+			
+			if (Util2.isObject(s))
 			{
+            	s2 = Util.shallowCopy(s);
 				Util.addObject(s2, sX);
 			}
 			else
@@ -844,9 +862,9 @@ class Sutl
 //            trace(s2);
 
             var l2 = l;
-            if (Reflect.hasField(t, "*"))
+            if (UtilReflect.hasField(t, "*"))
             {
-                l2 = _evaluateDict(s, Util.get(t, "*"), l, src, tt, b, dec(h));
+                l2 = _evaluateDict(s, Util3.get(t, "*"), l, src, tt, b, dec(h), false);
             };
 
             retval = builtinf(s, s2, l2, src, tt, b, dec(h));
@@ -856,19 +874,27 @@ class Sutl
     }
 
     public function _evaluateEval
-    	(s: Dynamic, t: Dynamic, l: Dynamic, src: Dynamic, tt: Dynamic, b: Dynamic, h: Int): Dynamic
+    	(needseval: Bool, s: Dynamic, t: Dynamic, l: Dynamic, src: Dynamic, tt: Dynamic, b: Dynamic, h: Int): Dynamic
     {
         logenter("_evaluateEval", s, t, h);
         
         var retval;
-        
-        var teval = _evaluateDict(s, t, l, src, tt, b, h);
 
-        var t2 = Util.get(teval, "!");
+		var teval;
+		if (needseval)        
+		{
+	        teval = _evaluateDict(s, t, l, src, tt, b, h, false);
+	    }
+	    else
+	    {
+	    	teval = t;
+	    }
+
+        var t2 = Util3.get(teval, "!");
         
         var s2 = {};
 
-        if (Util.isObject(s))
+        if (Util2.isObject(s))
         {
         	s2 = Util.shallowCopy(s);
         };
@@ -876,9 +902,9 @@ class Sutl
 		Util.addObject(s2, teval);
 		
         var l2 = l;
-        if (Reflect.hasField(t, "*"))
+        if (UtilReflect.hasField(t, "*"))
         {
-            l2 = _evaluate(s, Util.get(t, "*"), l, src, tt, b, h);
+            l2 = _evaluate(s, Util3.get(t, "*"), l, src, tt, b, h);
         };
 
         var r = _evaluate(s2, t2, l2, src, tt, b, h);
@@ -895,19 +921,19 @@ class Sutl
         
         var retval;
 
-        var t2 = _evaluate(s, Util.get(t, "!!"), l, src, tt, b, h);
+        var t2 = _evaluate(s, Util3.get(t, "!!"), l, src, tt, b, h);
         
         var s2 = s;
 
-        if (Reflect.hasField(t, "s"))
+        if (UtilReflect.hasField(t, "s"))
         {
-            var ts = _evaluate(s, Util.get(t, "s"), l, src, tt, b, h);
+            var ts = _evaluate(s, Util3.get(t, "s"), l, src, tt, b, h);
 
-            if (Util.isObject(ts))
+            if (Util2.isObject(ts))
             {
                 s2 = {};
 
-                if (Util.isObject(s))
+                if (Util2.isObject(s))
                 {
                 	s2 = Util.shallowCopy(s);
                 };
@@ -921,9 +947,9 @@ class Sutl
         };
 		
         var l2 = l;
-        if (Reflect.hasField(t, "*"))
+        if (UtilReflect.hasField(t, "*"))
         {
-            l2 = _evaluate(s, Util.get(t, "*"), l, src, tt, b, h);
+            l2 = _evaluate(s, Util3.get(t, "*"), l, src, tt, b, h);
         };
 
         var r = _evaluate(s2, t2, l2, src, tt, b, h);
@@ -934,11 +960,11 @@ class Sutl
     }
 
     function _evaluateDict
-    	(s: Dynamic, t: Dynamic, l: Dynamic, src: Dynamic, tt: Dynamic, b: Dynamic, h: Int): Dynamic
+    	(s: Dynamic, t: Dynamic, l: Dynamic, src: Dynamic, tt: Dynamic, b: Dynamic, h: Int, skipAmp: Bool): Dynamic
     {
         logenter("_evaluateDict", s, t, h);
 
-		var retval = _doevaluateDict(false, s, t, l, src, tt, b, dec(h));
+		var retval = _doevaluateDict(false, s, t, l, src, tt, b, dec(h), skipAmp);
 
         logexit("_evaluateDict", retval, h);
         
@@ -950,7 +976,7 @@ class Sutl
     {
         logenter("_quoteEvaluateDict", s, t, h);
 
-		var retval = _doevaluateDict(true, s, t, l, src, tt, b, dec(h));
+		var retval = _doevaluateDict(true, s, t, l, src, tt, b, dec(h), false);
 
         logexit("_quoteEvaluateDict", retval, h);
         
@@ -958,16 +984,23 @@ class Sutl
     }
 
     function _doevaluateDict
-    	(usequoteform: Bool, s: Dynamic, t: Dynamic, l: Dynamic, src: Dynamic, tt: Dynamic, b: Dynamic, h: Int): Dynamic
+    	(usequoteform: Bool, s: Dynamic, t: Dynamic, l: Dynamic, src: Dynamic, tt: Dynamic, b: Dynamic, h: Int, skipAmp: Bool): Dynamic
     {
         var retval = {};
 
-        for (key in Reflect.fields(t))
+        for (key in UtilReflect.fields(t))
         {        	
 	    	if (usequoteform)
-    	    	Reflect.setField(retval, key, _quoteEvaluate(s, Util.get(t, key), l, src, tt, b, h));
+    	    	UtilReflect.setField(retval, key, _quoteEvaluate(s, Util3.get(t, key), l, src, tt, b, h));
     	    else
-    	    	Reflect.setField(retval, key, _evaluate(s, Util.get(t, key), l, src, tt, b, h));
+    	    {
+    	    	if (key != "&")
+    	    	{ 
+	    	    	var lnewt = _evaluate(s, Util3.get(t, key), l, src, tt, b, h);
+		    	    
+		    	    UtilReflect.setField(retval, key, lnewt);
+		    	}
+	    	}
         };
 
         return retval;
@@ -1000,15 +1033,23 @@ class Sutl
     function _doevaluateList
     	(usequoteform: Bool, s: Dynamic, t: Dynamic, l: Dynamic, src: Dynamic, tt: Dynamic, b: Dynamic, h: Int): Dynamic
     {
-        var retval = [];
+//        var retval = [];
 
-		var tarr: Array<Dynamic> = cast(t, Array<Dynamic>);
-        for (elem in tarr)
+		var tarr: Array<Dynamic> = Util.SequenceToArray(t);
+        var retval = tarr.copy();
+        for (ix in 0...tarr.length)
         {
+        	var elem = tarr[ix];
+//        	if (usequoteform)
+//	            retval.push(_quoteEvaluate(s, elem, l, src, tt, b, h));
+//	        else
+//	            retval.push(_evaluate(s, elem, l, src, tt, b, h));
         	if (usequoteform)
-	            retval.push(_quoteEvaluate(s, elem, l, src, tt, b, h));
+	            elem = _quoteEvaluate(s, elem, l, src, tt, b, h);
 	        else
-	            retval.push(_evaluate(s, elem, l, src, tt, b, h));
+	            elem = _evaluate(s, elem, l, src, tt, b, h);
+	            
+	        retval[ix] = elem;
         };
 
         return retval;
@@ -1024,7 +1065,7 @@ class Sutl
         var resultlib = {};
         var resultliblib = {};
 
-		if (Util.isObject(l))
+		if (Util2.isObject(l))
 		{
 			resultlib = Util.shallowCopy(l);
 	    }
@@ -1035,24 +1076,24 @@ class Sutl
         for (decl in decls)
         {
             //var decl = Utils.get(decls, dkey);
-            var declname = Util.get(decl, "name", "");
+            var declname = Util3.get(decl, "name", "");
             
-            if ( Reflect.hasField(decl, "requires") && Util.isArray(Util.get(decl, "requires")) )
+            if ( UtilReflect.hasField(decl, "requires") && Util2.isArray(Util3.get(decl, "requires")) )
             {
-            	var reqnames:Array<Dynamic> = cast(Util.get(decl, "requires"), Array<Dynamic>);
+            	var reqnames:Array<Dynamic> = cast(Util3.get(decl, "requires"), Array<Dynamic>);
             	
                 for (reqname in reqnames)
                 {
                     //var reqname = decl["requires"][nix]
-                    if (!(Reflect.hasField(l, reqname)))
+                    if (!(UtilReflect.hasField(l, reqname)))
                     {
-                        if (Util.isPrefix(reqname, declname))
+                        if (Util3.isPrefix(reqname, declname))
                         {
-                            Reflect.setField(resultlib, reqname, Util.get(decl, "transform-t"));
+                            UtilReflect.setField(resultlib, reqname, Util3.get(decl, "transform-t"));
                         }
                         else
                         {
-                            Reflect.setField(all_candidate_decls, reqname, []);
+                            UtilReflect.setField(all_candidate_decls, reqname, []);
                         }
                     }
                 }
@@ -1060,9 +1101,9 @@ class Sutl
         };
 
         // get list of candidate decls for each reqname
-        for (reqname in Reflect.fields(all_candidate_decls))
+        for (reqname in UtilReflect.fields(all_candidate_decls))
         {
-        	var candidate_decls = Util.get(all_candidate_decls, reqname);
+        	var candidate_decls = Util3.get(all_candidate_decls, reqname);
         	
             for (dist in dists)
             {
@@ -1070,8 +1111,8 @@ class Sutl
                 for (decl in dist)
                 {
                     //var decl = dist[dkey]
-                    var declname = Util.get(decl, "name", "");
-                    if (Util.isPrefix(reqname, declname))
+                    var declname = Util3.get(decl, "name", "");
+                    if (Util3.isPrefix(reqname, declname))
                     {
                         candidate_decls.push(decl);
                     }
@@ -1080,11 +1121,11 @@ class Sutl
         };
 
         // here all_candidate_decls is a dict of candidate_decls by name in decl requires
-        for (reqname in Reflect.fields(all_candidate_decls))
+        for (reqname in UtilReflect.fields(all_candidate_decls))
         {
-            var candidate_decls = Util.get(all_candidate_decls, reqname);
+            var candidate_decls = Util3.get(all_candidate_decls, reqname);
 
-            if (Util.isTruthy(candidate_decls))
+            if (Util3.isTruthy(candidate_decls))
             {
             	var candidate_decls_arr: Array<Dynamic> = cast(candidate_decls, Array<Dynamic>);
 
@@ -1092,11 +1133,11 @@ class Sutl
                 {
                     var clresult = _compilelib([candidate_decl], dists, resultlib, b);
                     
-                    var clresultlib = Util.get(clresult, "lib");
+                    var clresultlib = Util3.get(clresult, "lib");
                     
                     Util.addObject(resultlib, clresultlib);
 
-                    Reflect.setField(resultlib, reqname, Util.get(candidate_decl, "transform-t"));
+                    UtilReflect.setField(resultlib, reqname, Util3.get(candidate_decl, "transform-t"));
 
                     break;
                 }

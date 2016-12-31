@@ -16,12 +16,11 @@ class Tests_isType extends haxe.unit.TestCase
 		
  	public function isType(aTypeName: String, aObj: Dynamic)
  	{
-		//trace(aTypeName);
- 		assertTrue(Util.isObject(aObj) == (aTypeName == "object"));
- 		assertTrue(Util.isArray(aObj) == (aTypeName == "array"));
- 		assertTrue(Util.isString(aObj) == (aTypeName == "string"));
- 		assertTrue(Util.isNumber(aObj) == (aTypeName == "number"));
- 		assertTrue(Util.isBool(aObj) == (aTypeName == "bool"));
+ 		assertTrue(Util2.isObject(aObj) == (aTypeName == "object"));
+ 		assertTrue(Util2.isArray(aObj) == (aTypeName == "array"));
+ 		assertTrue(Util2.isString(aObj) == (aTypeName == "string"));
+ 		assertTrue(Util2.isNumber(aObj) == (aTypeName == "number"));
+ 		assertTrue(Util2.isBool(aObj) == (aTypeName == "bool"));
  	}
  	
  	public function GetType(aSutlTypeName: String, aObj: Dynamic)
@@ -53,7 +52,7 @@ class Tests_isType extends haxe.unit.TestCase
 	 	
  		var s = new Sutl();
 
-	 	return Util.get(_values, aTypeName);
+	 	return Util3.get(_values, aTypeName);
 	}
 
  	public function testIsObject()
@@ -123,57 +122,57 @@ class Tests_isType extends haxe.unit.TestCase
  	
  	public function testIsTruthyObj()
  	{
- 		assertTrue(Util.isTruthy({"fred": 1}));
+ 		assertTrue(Util3.isTruthy({"fred": 1}));
  	}
 
  	public function testIsNotTruthyObj()
  	{
- 		assertFalse(Util.isTruthy({}));
+ 		assertFalse(Util3.isTruthy({}));
  	}
 
  	public function testIsTruthyList()
  	{
- 		assertTrue(Util.isTruthy([{"fred": 1}, 1]));
+ 		assertTrue(Util3.isTruthy([{"fred": 1}, 1]));
  	}
 
  	public function testIsNotTruthyList()
  	{
- 		assertFalse(Util.isTruthy([]));
+ 		assertFalse(Util3.isTruthy([]));
  	}
 
  	public function testIsTruthyString()
  	{
- 		assertTrue(Util.isTruthy("fred"));
+ 		assertTrue(Util3.isTruthy("fred"));
  	}
 
  	public function testIsNotTruthyString()
  	{
- 		assertFalse(Util.isTruthy(""));
+ 		assertFalse(Util3.isTruthy(""));
  	}
 
  	public function testIsTruthyNumber()
  	{
- 		assertTrue(Util.isTruthy(4.7));
+ 		assertTrue(Util3.isTruthy(4.7));
  	}
 
  	public function testIsNotTruthyNumber()
  	{
- 		assertFalse(Util.isTruthy(0));
+ 		assertFalse(Util3.isTruthy(0));
  	}
 
  	public function testIsTruthyBool()
  	{
- 		assertTrue(Util.isTruthy(true));
+ 		assertTrue(Util3.isTruthy(true));
  	}
 
  	public function testIsNotTruthyBool()
  	{
- 		assertFalse(Util.isTruthy(false));
+ 		assertFalse(Util3.isTruthy(false));
  	}
 
  	public function testIsNotTruthyNull()
  	{
- 		assertFalse(Util.isTruthy(null));
+ 		assertFalse(Util3.isTruthy(null));
  	}
  	
  	public function testIsBuiltinEval()
@@ -183,7 +182,7 @@ class Tests_isType extends haxe.unit.TestCase
  			"x": 2
  		};
  		
- 		assertTrue(Util.isBuiltinEval(obj));
+ 		assertTrue(Util3.isBuiltinEval(obj));
  	}
  	
  	public function testIsBuiltinEval2()
@@ -193,7 +192,7 @@ class Tests_isType extends haxe.unit.TestCase
  			"x": 2
  		};
  		
- 		assertFalse(Util.isBuiltinEval(obj));
+ 		assertFalse(Util3.isBuiltinEval(obj));
  	}
 
  	public function testIsArrayBuiltinEval()
@@ -266,7 +265,7 @@ class Tests_isType extends haxe.unit.TestCase
  			"z": 2
  		}
  		
- 		assertTrue(Util.isEval(obj));
+ 		assertTrue(Util3.isEval(obj));
  	}
 
  	public function testIsEval2()
@@ -276,21 +275,21 @@ class Tests_isType extends haxe.unit.TestCase
  			"s": 2
  		}
  		
- 		assertTrue(Util.isEval2(obj));
+ 		assertTrue(Util3.isEval2(obj));
  	}
 
  	public function testIsQuoteEval()
  	{
  		var obj = quote({ "x": 1 });
  		
- 		assertTrue(Util.isQuoteEval(obj));
+ 		assertTrue(Util3.isQuoteEval(obj));
  	}
 
  	public function testIsDoubleQuoteEval()
  	{
  		var obj = unquote({ "x": 1 });
  		
- 		assertTrue(Util.isDoubleQuoteEval(obj));
+ 		assertTrue(Util3.isDoubleQuoteEval(obj));
  	}
 
  	public function testIsColonEval()
@@ -300,21 +299,21 @@ class Tests_isType extends haxe.unit.TestCase
  			"s": 2
  		}
  		
- 		assertTrue(Util.isColonEval(obj));
+ 		assertTrue(Util3.isColonEval(obj));
  	}
 
  	public function testIsListTransform()
  	{
  		var obj = [ 1, 2, 3 ];
  		
- 		assertTrue(Util.isListTransform(obj));
+ 		assertTrue(Util3.isListTransform(obj));
  	}
 
  	public function testIsDictTransform()
  	{
  		var obj = { };
  		
- 		assertTrue(Util.isDictTransform(obj));
+ 		assertTrue(Util3.isDictTransform(obj));
  	}
  	
  	public function testShallowCopy()

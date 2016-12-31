@@ -1,97 +1,24 @@
 class Util
 {
-    public static function isObject (obj: Dynamic): Bool
+    public static function isStringBuiltinEval(obj: Dynamic, b: Dynamic): Bool
     {
-    	var retval = Type.typeof(obj) == TObject;
-//    	var retval = Reflect.isObject(obj) && !isArray(obj) && !isString(obj);
-//    	var retval = Reflect.isObject(obj) && Type.typeof(obj) == TObject; //!isArray(obj) && !isString(obj);
-//    	if (retval)
-//    	{
-//	    	trace(Type.typeof(obj) == TObject);
-//    	}
-    	return retval;
-    }
+        var retval = Util2.isString(obj);
 
-    public static function isArray (obj: Dynamic): Bool
-    {
-    	var retval = Type.getClass(obj) == Array;
-//    	var retval = Reflect.isObject(obj) && Type.typeof(obj) != TObject && Std.is(obj, Array);
-//    	if (retval)
-//    	{
-//	    	trace(Type.typeof(obj));
-//    	}
-    	return retval;
-    }
+        if (retval)
+        {
+        	var str: String = cast(obj, String);
+        	
+            var larr: Array<String> = str.split(".");
 
-    public static function isString (obj: Dynamic): Bool
-    {
-    	var retval = Type.getClass(obj) == String;
-    	//var retval = Reflect.isObject(obj) &&  Std.is(obj, String);
-//    	if (retval)
-//    	{
-//	    	trace(Type.getClassName(Type.getClass(obj)));
-//    	}
-    	return retval;
-    }
-    
-    public static function isSequence (obj: Dynamic): Bool
-    {
-    	return isArray(obj) || isString(obj);
-    }
+            retval = Util.isArrayBuiltinEval(larr, b);
+        }
 
-    public static function isNumber (obj: Dynamic): Bool
-    {
-    	var ltype = Type.typeof(obj);
-    	return ltype == TInt || ltype == TFloat;
-    	//return Std.is(obj, Int) || Std.is(obj, Float);
-    }
-
-    public static function isBool (obj: Dynamic): Bool
-    {
-    	var ltype = Type.typeof(obj);
-    	return ltype == TBool;
-    }
-
-    public static function isTruthy(aObj:Dynamic): Bool
-    {
-    	var retval = false;
-    	
-    	if (isObject(aObj))
-    	{ 
-			retval = Reflect.fields(aObj).length > 0;
-    	}
-    	else if (isArray(aObj))
-    	{
-    		retval = aObj.length > 0;
-    	}
-    	else if (isString(aObj))
-    	{
-    		retval = aObj != "";
-    	}
-    	else if (isNumber(aObj))
-    	{
-    		retval = aObj != 0;
-    	}
-    	else if (isBool(aObj))
-    	{
-    		retval = aObj;
-    	}
-    	else 
-    	{
-    		retval = aObj != null;
-    	}
-    	
-    	return retval;
-    }
-
-    public static function isBuiltinEval(obj: Dynamic): Bool 
-    {
-        return isObject(obj) && Reflect.hasField(obj, "&");
+        return retval;
     }
 
     public static function isArrayBuiltinEval(obj: Dynamic, b: Dynamic): Bool
     {
-        var retval = isArray(obj); 
+        var retval = Util2.isArray(obj); 
         
         if (retval)
         {
@@ -109,21 +36,26 @@ class Util
 	            else
 	            	lop = null;
 
-				retval = isString(lop);	            	
+				retval = Util2.isString(lop);	            	
 	            if (retval)
 	            {
 	            	var lopStr:String = cast(lop, String);
 	            	
 	            	var lopSignifier = lopStr.charAt(0);
-//		        	trace (" SIG: " + lopSignifier);
+
+//	            	retval = (
+//		            		lopSignifier == "&" || 
+//		            		lopSignifier == "^"
+//	            		) ;
+
+	            	var lopSignifier = lopStr.charAt(0);
 	            	var lopBuiltinName = getArrayBuiltinName(lopStr);
-//		        	trace (" BN: " + lopBuiltinName);
 	            	
 	            	retval = (
 		            		lopSignifier == "&" || 
 		            		lopSignifier == "^"
 	            		) 
-	            		&& Reflect.hasField(b, lopBuiltinName);
+	            		&& UtilReflect.hasField(b, lopBuiltinName);
 	            }
 	        }
 	    }
@@ -131,57 +63,6 @@ class Util
         return retval;
     }
 
-    public static function isStringBuiltinEval(obj: Dynamic, b: Dynamic): Bool
-    {
-        var retval = isString(obj);
-
-        if (retval)
-        {
-        	var str: String = cast(obj, String);
-        	
-            var larr: Array<String> = str.split(".");
-
-            retval = isArrayBuiltinEval(larr, b);
-        }
-
-        return retval;
-    }
-
-    public static function isEval(obj: Dynamic): Bool
-    {
-        return isObject(obj) && Reflect.hasField(obj, "!");
-    }
-
-    public static function isEval2(obj: Dynamic): Bool
-    {
-        return isObject(obj) && Reflect.hasField(obj, "!!");
-    }
-
-    public static function isQuoteEval(obj: Dynamic): Bool
-    {
-        return isObject(obj) && Reflect.hasField(obj, "'");
-    }
-
-    public static function isDoubleQuoteEval(obj: Dynamic): Bool
-    {
-        return isObject(obj) && Reflect.hasField(obj, "''");
-    }
-
-    public static function isColonEval(obj: Dynamic): Bool 
-    {
-        return isObject(obj) && Reflect.hasField(obj, ":");
-    }
-
-    public static function isDictTransform(obj: Dynamic): Bool 
-    {
-    	return isObject(obj);
-    }
-    
-    public static function isListTransform(obj: Dynamic): Bool
-    {
-    	return isArray(obj);
-    }
-    
     public static function getArrayBuiltinName(aOp: String): String
     {
         if (aOp.length != null && aOp.length > 0) 
@@ -190,32 +71,17 @@ class Util
             return null;
     }
     
-    public static function get(obj: Dynamic, key: String, ?def: Dynamic): Dynamic
-    {
-    	var retval: Dynamic = null;
-    	
-    	if (Util.isObject(obj))
-    	{
-    		retval = Reflect.field(obj, key);
-	    }
-	    
-		if (retval == null)
-			retval = def;
-
-	    return retval;
-    }	
-
     public static function gettype(item: Dynamic): String
     {
-        if (Util.isObject(item))
+        if (Util2.isObject(item))
             return "map"
-        else if (Util.isArray(item))
+        else if (Util2.isArray(item))
             return "list"
-        else if (Util.isString(item))
+        else if (Util2.isString(item))
             return "string"
-        else if (Util.isNumber(item))
+        else if (Util2.isNumber(item))
             return "number"
-        else if (Util.isBool(item))
+        else if (Util2.isBool(item))
             return "boolean"
         else if (item == null)
             return "null"
@@ -260,8 +126,8 @@ class Util
 			{
 				if (obj1Type == "map")
 				{
-					var obj1Fields = Reflect.fields(aObj1);
-					var obj2Fields = Reflect.fields(aObj2);
+					var obj1Fields = UtilReflect.fields(aObj1);
+					var obj2Fields = UtilReflect.fields(aObj2);
 					retval = obj1Fields.length == obj2Fields.length;
 					if (! retval)
 					{
@@ -273,8 +139,8 @@ class Util
 						for (obj1Field in obj1Fields)
 						{
 							path.push(obj1Field);
-							retval = Reflect.hasField(aObj2, obj1Field) &&
-								Util.deepEqual2(Reflect.field(aObj1, obj1Field), Reflect.field(aObj2, obj1Field), path, maxdepth-1);
+							retval = UtilReflect.hasField(aObj2, obj1Field) &&
+								Util.deepEqual2(UtilReflect.field(aObj1, obj1Field), UtilReflect.field(aObj2, obj1Field), path, maxdepth-1);
 							path.pop();
 							if (!retval)
 								break;
@@ -325,11 +191,11 @@ class Util
 		if (objType == "map")
 		{
 			retval = {};
-			var objFields = Reflect.fields(aObj);
+			var objFields = UtilReflect.fields(aObj);
 
 			for (objField in objFields)
 			{
-				Reflect.setField(retval, objField, Util.deepCopy(Reflect.field(aObj, objField)));
+				UtilReflect.setField(retval, objField, Util.deepCopy(UtilReflect.field(aObj, objField)));
 			}
 		}
 		else if (objType == "list")
@@ -349,46 +215,13 @@ class Util
 		return retval;
 	}
 
-	public static function shallowCopy(aObj: Dynamic): Dynamic
-	{
-		var retval:Dynamic = null;
- 		var s = new Sutl();
-		var objType = gettype(aObj);
-
-		if (objType == "map")
-		{
-			retval = {};
-			var objFields = Reflect.fields(aObj);
-
-			for (objField in objFields)
-			{
-				Reflect.setField(retval, objField, Reflect.field(aObj, objField));
-			}
-		}
-		else if (objType == "list")
-		{
-			retval = [];
-
-			for (elem in cast(aObj, Array<Dynamic>))
-			{
-				retval.push(elem);
-			}
-		}
-		else
-		{
-            retval = aObj;
-		}
-		
-		return retval;
-	}
-
 	public static function addObject(aBase: Dynamic, aAdd: Dynamic): Void
 	{
-		if (isObject(aBase) && isObject(aAdd))
+		if (Util2.isObject(aBase) && Util2.isObject(aAdd))
 		{
-            for (key in Reflect.fields(aAdd))
+            for (key in UtilReflect.fields(aAdd))
             {
-            	Reflect.setField(aBase, key, Reflect.field(aAdd, key));
+            	UtilReflect.setField(aBase, key, UtilReflect.field(aAdd, key));
             }
 		}
 	}
@@ -397,7 +230,7 @@ class Util
 	{
    		var retval:Array<String> = null;
    		
-   		if (isString(aStrObj))
+   		if (Util2.isString(aStrObj))
    		{
    			retval = [];
 	   		var liststr: String = cast(aStrObj, String);
@@ -414,11 +247,11 @@ class Util
 	{
         var retval:Array<Dynamic> = null;
 
-    	if (isArray(aObj))
+    	if (Util2.isArray(aObj))
     	{
         	retval = cast(aObj, Array<Dynamic>);
         }
-       	else if (isString(aObj))
+       	else if (Util2.isString(aObj))
        	{
        		retval = Util.StringToArray(aObj);
        	};
@@ -432,7 +265,7 @@ class Util
 
         for (elem in lst)
         {
-            if (isArray(elem))
+            if (Util2.isArray(elem))
             {
                 retval = retval.concat(elem);
             }
@@ -451,8 +284,29 @@ class Util
     	return Sutlcore.get();
     }
 
-    public static function isPrefix(str1: String, str2: String): Bool
+    public static function shallowCopy(aObj: Dynamic): Dynamic
     {
-        return str2.indexOf(str1) == 0;
+        var retval:Dynamic = null;
+        var objType = gettype(aObj);
+
+        if (objType == "map")
+        {
+            retval = Reflect.copy(aObj);
+        }
+        else if (objType == "list")
+        {
+            retval = [];
+
+            for (elem in cast(aObj, Array<Dynamic>))
+            {
+                retval.push(elem);
+            }
+        }
+        else
+        {
+            retval = aObj;
+        }
+        
+        return retval;
     }
 }
