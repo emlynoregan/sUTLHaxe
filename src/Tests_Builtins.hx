@@ -352,5 +352,140 @@ class Tests_Builtins extends haxe.unit.TestCase
 
 		callbuiltin2("pos", scope, 4);
  	}
+
+	public function test_string1()
+	{
+		var scope = {
+			"value": "the quick brown fox",
+		};
+
+		callbuiltin2("string", scope, "the quick brown fox");
+ 	}
+
+	public function test_string2()
+	{
+		var scope = {
+			"value": 32,
+		};
+
+		callbuiltin2("string", scope, "32");
+ 	}
+
+	public function test_string3()
+	{
+		var scope = {
+			"value": 47.456,
+		};
+
+		callbuiltin2("string", scope, "47.456");
+ 	}
+
+	public function test_string4()
+	{
+		var scope = {
+			"value": true,
+		};
+
+		callbuiltin2("string", scope, "true");
+ 	}
+
+	public function test_string5()
+	{
+		var scope = {
+			"value": null,
+		};
+
+		callbuiltin2("string", scope, "null");
+ 	}
+
+	public function test_number1()
+	{
+		var scope = {
+			"value": "47",
+		};
+
+		callbuiltin2("number", scope, 47);
+ 	}
+
+	public function test_number2()
+	{
+		var scope = {
+			"value": "47.5",
+		};
+
+		callbuiltin2("number", scope, 47.5);
+ 	}
+
+	public function test_number3()
+	{
+		var scope = {
+			"value": 47,
+		};
+
+		callbuiltin2("number", scope, 47);
+ 	}
+
+	public function test_number4()
+	{
+		var scope = {
+			"value": true,
+		};
+
+		callbuiltin2("number", scope, 1);
+ 	}
+
+	public function test_number5()
+	{
+		var scope = {
+			"value": false,
+		};
+
+		callbuiltin2("number", scope, 0);
+ 	}
+
+	public function test_boolean1()
+	{
+		var scope = {
+			"value": false,
+		};
+
+		callbuiltin2("boolean", scope, false);
+ 	}
+
+	public function test_boolean2()
+	{
+		var scope = {
+			"value": [],
+		};
+
+		callbuiltin2("boolean", scope, false);
+ 	}
+
+	public function test_boolean3()
+	{
+		var scope = {
+			"value": "x",
+		};
+
+		callbuiltin2("boolean", scope, true);
+ 	}
+
+	public function test_boolean4()
+	{
+		var scope = {
+			"value": 1,
+		};
+
+		callbuiltin2("boolean", scope, true);
+ 	}
+
+	public function test_boolean5()
+	{
+		var scope = {
+			"value": 0,
+		};
+
+		callbuiltin2("boolean", scope, false);
+ 	}
 }
  

@@ -334,12 +334,14 @@ class Util
 		}
 		else if (objType == "list")
 		{
-			retval = [];
+			var retvalArr:Array<Dynamic> = [];
 
 			for (elem in cast(aObj, Array<Dynamic>))
 			{
-				retval.push(Util.deepCopy(elem));
+				retvalArr.push(Util.deepCopy(elem));
 			}
+			
+			retval = retvalArr;
 		}
 		else
 		{

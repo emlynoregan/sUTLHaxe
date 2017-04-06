@@ -519,6 +519,106 @@ class Sutl
                 };
                  
                 return retval;
+            },
+            "string": 
+            function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
+            {
+                var lvalue:Dynamic = Util.get(scope, "value");
+                var retval;
+
+                if (Util.isString(lvalue))
+                {
+                	retval = lvalue;
+                }
+                else if (Util.isNumber(lvalue))
+            	{
+            		try
+            		{
+                		retval = Std.string(lvalue);
+                	}
+		            catch (err: Dynamic)
+		            {
+		                retval = "failed cast";
+		            }
+            	}
+            	else if (Util.isBool(lvalue))
+            	{
+            		retval = Util.isTruthy(lvalue) ? "true": "false";
+            	}
+            	else if (lvalue == null)
+            	{
+            		retval = "null";
+            	}
+            	else if (Util.isArray(lvalue))
+            	{
+            		retval = "list";
+            	}
+            	else if (Util.isObject(lvalue))
+            	{
+            		retval = "map";
+            	}
+            	else
+            	{
+            		retval = "unknown";
+            	}
+                 
+                return retval;
+            },
+            "number": 
+            function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
+            {
+                var lvalue: Dynamic = Util.get(scope, "value");
+                var retval: Float = 0;
+
+                if (Util.isNumber(lvalue))
+            	{
+	            	retval = lvalue;
+            	}
+                else if (Util.isString(lvalue))
+                {
+//            		try
+//            		{
+//                		retval = Std.parseInt(lvalue);
+//                	}
+//		            catch (err: Dynamic)
+//		            {
+	            		try
+	            		{
+	                		retval = Std.parseFloat(lvalue);
+	                	}
+			            catch (err: Dynamic)
+			            {
+			                // pass
+			            }
+//		            }
+                }
+            	else if (Util.isBool(lvalue))
+            	{
+            		retval = Util.isTruthy(lvalue) ? 1: 0;
+            	}
+            	else
+            	{
+            		retval = 0;
+            	}
+                 
+                return retval;
+            },
+            "boolean": 
+            function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
+            {
+                var lvalue = Util.get(scope, "value");
+                var retval;
+
+                if (Util.isBool(lvalue))
+            	{
+	            	retval = lvalue;
+            	}
+            	else
+            	{
+            		retval = Util.isTruthy(lvalue);
+            	}
+                 
+                return retval;
             }
         };
 
