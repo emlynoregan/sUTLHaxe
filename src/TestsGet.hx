@@ -7,7 +7,7 @@ class TestsGet extends haxe.unit.TestCase
  		var obj:haxe.ds.StringMap<Dynamic> = new haxe.ds.StringMap<Dynamic>();
 	    obj = haxe.Json.parse('{"fred": 2}');
  		
- 		var result = Util.get(obj, "fred", "zzz");
+ 		var result = Util3.get(obj, "fred", "zzz");
  		this.assertEquals(2, result);
  		
  	}
@@ -19,7 +19,7 @@ class TestsGet extends haxe.unit.TestCase
  		var obj:haxe.ds.StringMap<Dynamic> = new haxe.ds.StringMap<Dynamic>();
 	    obj = haxe.Json.parse('{"george": 2}');
  		
- 		var result = Util.get(obj, "fred", "zzz");
+ 		var result = Util3.get(obj, "fred", "zzz");
  		this.assertEquals("zzz", result);
  		
  	}
@@ -31,7 +31,7 @@ class TestsGet extends haxe.unit.TestCase
  		var obj:haxe.ds.StringMap<Dynamic> = new haxe.ds.StringMap<Dynamic>();
 	    obj = haxe.Json.parse('[{"fred": 2}]');
  		
- 		var result = Util.get(obj, "fred", "isarray");
+ 		var result = Util3.get(obj, "fred", "isarray");
  		this.assertEquals("isarray", result);
  	}
 
@@ -42,7 +42,7 @@ class TestsGet extends haxe.unit.TestCase
  		var obj:haxe.ds.StringMap<Dynamic> = new haxe.ds.StringMap<Dynamic>();
 	    obj = haxe.Json.parse('1');
  		
- 		var result = Util.get(obj, "fred", "isnumber");
+ 		var result = Util3.get(obj, "fred", "isnumber");
  		this.assertEquals("isnumber", result);
  	}
 
@@ -53,7 +53,7 @@ class TestsGet extends haxe.unit.TestCase
  		var obj:haxe.ds.StringMap<Dynamic> = new haxe.ds.StringMap<Dynamic>();
 	    obj = haxe.Json.parse('null');
  		
- 		var result = Util.get(obj, "fred", "isnull");
+ 		var result = Util3.get(obj, "fred", "isnull");
  		this.assertEquals("isnull", result);
  	}
 
@@ -64,7 +64,7 @@ class TestsGet extends haxe.unit.TestCase
  		var obj:haxe.ds.StringMap<Dynamic> = new haxe.ds.StringMap<Dynamic>();
 	    obj = haxe.Json.parse('{"george": 3}');
  		
- 		var result = Util.get(obj, "fred");
+ 		var result = Util3.get(obj, "fred");
  		this.assertEquals(null, result);
  	}
 }

@@ -66,12 +66,12 @@ class Tests_Decls extends haxe.unit.TestCase
 	    var llib = {}
 	    if (Reflect.hasField(llibresult, "lib"))
 	    {
-	        llib = Util.get(llibresult, "lib");
+	        llib = Util3.get(llibresult, "lib");
 	    }
 	    
 	    //trace("lib contains: " + Reflect.fields(llib));
 	    
-	    var lresult = s.evaluate(aSource, Util.get(aDecl, "transform-t"), llib, 0);
+	    var lresult = s.evaluate(aSource, Util3.get(aDecl, "transform-t"), llib, 0);
 	    
 	    return lresult;
 	}
@@ -81,7 +81,7 @@ class Tests_Decls extends haxe.unit.TestCase
 	{
 		var s = new Sutl();
 			    
-	    var lresult = s.evaluate(aSource, Util.get(aDecl, "transform-t"), aLib, 0);
+	    var lresult = s.evaluate(aSource, Util3.get(aDecl, "transform-t"), aLib, 0);
 	    
 	    return lresult;
 	}
@@ -90,7 +90,7 @@ class Tests_Decls extends haxe.unit.TestCase
 	{
 		var lcoreDist = LoadCoreDist();
 		
-		this.assertTrue(Util.isArray(lcoreDist));
+		this.assertTrue(Util2.isArray(lcoreDist));
 	}
 
 	public function test_concat()

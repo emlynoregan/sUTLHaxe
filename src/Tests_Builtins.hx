@@ -16,7 +16,7 @@ class Tests_Builtins extends haxe.unit.TestCase
  		
  		var builtins = s.builtins();
  		
- 		var f = Util.get(builtins, builtinname);
+ 		var f = Util3.get(builtins, builtinname);
  		
  		this.assertTrue(f != null);
 
@@ -40,7 +40,7 @@ class Tests_Builtins extends haxe.unit.TestCase
  		
  		var builtins = s.builtins();
  		
- 		var f = Util.get(builtins, builtinname);
+ 		var f = Util3.get(builtins, builtinname);
  		
  		this.assertTrue(f != null);
 
