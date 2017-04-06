@@ -532,14 +532,14 @@ class Sutl
             "string": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var lvalue:Dynamic = Util.get(scope, "value");
+                var lvalue:Dynamic = Util3.get(scope, "value");
                 var retval;
 
-                if (Util.isString(lvalue))
+                if (Util2.isString(lvalue))
                 {
                 	retval = lvalue;
                 }
-                else if (Util.isNumber(lvalue))
+                else if (Util2.isNumber(lvalue))
             	{
             		try
             		{
@@ -550,19 +550,19 @@ class Sutl
 		                retval = "failed cast";
 		            }
             	}
-            	else if (Util.isBool(lvalue))
+            	else if (Util2.isBool(lvalue))
             	{
-            		retval = Util.isTruthy(lvalue) ? "true": "false";
+            		retval = Util3.isTruthy(lvalue) ? "true": "false";
             	}
             	else if (lvalue == null)
             	{
             		retval = "null";
             	}
-            	else if (Util.isArray(lvalue))
+            	else if (Util2.isArray(lvalue))
             	{
             		retval = "list";
             	}
-            	else if (Util.isObject(lvalue))
+            	else if (Util2.isObject(lvalue))
             	{
             		retval = "map";
             	}
@@ -576,34 +576,27 @@ class Sutl
             "number": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var lvalue: Dynamic = Util.get(scope, "value");
+                var lvalue: Dynamic = Util3.get(scope, "value");
                 var retval: Float = 0;
 
-                if (Util.isNumber(lvalue))
+                if (Util2.isNumber(lvalue))
             	{
 	            	retval = lvalue;
             	}
-                else if (Util.isString(lvalue))
+                else if (Util2.isString(lvalue))
                 {
-//            		try
-//            		{
-//                		retval = Std.parseInt(lvalue);
-//                	}
-//		            catch (err: Dynamic)
-//		            {
-	            		try
-	            		{
-	                		retval = Std.parseFloat(lvalue);
-	                	}
-			            catch (err: Dynamic)
-			            {
-			                // pass
-			            }
-//		            }
+            		try
+            		{
+                		retval = Std.parseFloat(lvalue);
+                	}
+		            catch (err: Dynamic)
+		            {
+		                // pass
+		            }
                 }
-            	else if (Util.isBool(lvalue))
+            	else if (Util2.isBool(lvalue))
             	{
-            		retval = Util.isTruthy(lvalue) ? 1: 0;
+            		retval = Util3.isTruthy(lvalue) ? 1: 0;
             	}
             	else
             	{
@@ -615,16 +608,16 @@ class Sutl
             "boolean": 
             function(parentscope: Dynamic, scope: Dynamic, l: Dynamic, src:Dynamic, tt:Dynamic, b:Dynamic, h:Int): Dynamic
             {
-                var lvalue = Util.get(scope, "value");
+                var lvalue = Util3.get(scope, "value");
                 var retval;
 
-                if (Util.isBool(lvalue))
+                if (Util2.isBool(lvalue))
             	{
 	            	retval = lvalue;
             	}
             	else
             	{
-            		retval = Util.isTruthy(lvalue);
+            		retval = Util3.isTruthy(lvalue);
             	}
                  
                 return retval;
